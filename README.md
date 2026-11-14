@@ -67,18 +67,29 @@ bash install.sh
 
 ## 首次配置（很重要）
 
-面板默认接口是本机网关（开发者机器上才有）。**在别人电脑上第一次用，先配接口：**
+面板默认接口是开发者本机网关。**在别人电脑上第一次用，先配接口：**
 
 1. 点面板工具栏 **「设置AI」**。
-2. 在「接口预设」里选一个，例如：
-   - **OpenAI**（需 API Key）→ `https://api.openai.com/v1/chat/completions`
-   - **DeepSeek**（需 API Key）→ `https://api.deepseek.com/v1/chat/completions`
-   - **本机 Ollama**（免费离线）→ `http://127.0.0.1:11434/v1/chat/completions`，模型如 `qwen2.5:7b`
-   - **自定义…** → 任何 OpenAI 兼容的 `/v1/chat/completions` 地址
-3. 填「模型 id」和「API Key」（本机 Ollama 不用 Key），点确定。
+2. 在「接口预设」里选一个（详见下节「老师怎么接入智能体」）。
+3. 填「接口地址 / 模型 id / API Key」（本机 Ollama、Magpie 不用 Key），点确定。
 4. 之后点「讲当前文件 / 提问」就能用了。
 
 > 「运行 / 编译」功能**不需要任何 AI 接口**，没配也能用。
+
+### 老师怎么接入智能体（WorkBuddy / Codex 中转 / 直接 API）
+
+这个插件只认一种东西：**OpenAI 兼容的 `/v1/chat/completions` 地址**。
+你手上有哪种智能体，就把它变成这种地址填进来：
+
+| 老师手上的智能体 | 怎么填 | 填什么 |
+| --- | --- | --- |
+| **WorkBuddy（中转）** | 预设选「WorkBuddy 中转网关」 | 地址 = 你的中转网关地址（形如 `http://127.0.0.1:端口/v1/chat/completions`），模型 id 按网关实际暴露的填（如 `group/group`） |
+| **Codex（中转）** | 预设选「Codex 中转网关」 | 地址 = 你的 Codex 中转地址，模型 id 以中转网关为准（常见如 `gpt-4o-mini` / `gpt-5-codex` 之类） |
+| **直接给 API** | 预设选「OpenAI / DeepSeek / 自定义」 | 服务商给的 Base URL + 模型 id + API Key；任何 OpenAI 兼容服务都能用 |
+
+- 预设里的 `8792` / `8787` 端口**只是示例**，点选后按你中转网关的实际端口改一下就行。
+- 中转网关 / 本机网关一般**不用填 API Key**（网关自己解决鉴权）；云端官方服务才填 Key。
+- 没有中转、也没有 API？在老师电脑装一个 **Ollama**（免费离线），预设选「本机 Ollama」就能用，无需任何账号。
 
 ---
 
@@ -93,7 +104,7 @@ bash install.sh
 | 面板内提问 | 底部输入框回车发送、Shift+回车换行；自动带上当前文件上下文；流式输出 |
 | 保存自动讲解 | 保存文件后自动讲解（同一文件内容没变不重复讲） |
 | 一键运行 | 自动识别语言，自动挑 python/node/javac/gcc/g++/go/rust 等，输出到「运行输出」页 |
-| 设置AI | 对话框点选预设或自定义任意 OpenAI 兼容地址 |
+| 设置AI | 对话框点选预设：WorkBuddy / Codex 中转、OpenAI / DeepSeek / Ollama、自定义任意 OpenAI 兼容地址 |
 
 快捷键：`Ctrl+Alt+E` 讲文件、`Ctrl+Alt+Shift+E` 讲选中、`Ctrl+Alt+H` 卡住了、
 `Ctrl+Alt+R` 运行、`Ctrl+Alt+Q` 提问。
