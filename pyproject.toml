@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spyder-ai-assist"
+version = "0.1.0"
+description = "Spyder 通用 AI 辅助窗口（洄·讲解）：讲解/提问/一键运行，任意 OpenAI 兼容接口可接入"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["qtpy>=2.0", "spyder>=5.0"]
+
+[project.entry-points."spyder.plugins"]
+spyder_ai_assist = "spyder_ai_assist.plugin:SpyderAiAssist"
+
+[tool.setuptools.packages.find]
+include = ["spyder_ai_assist*"]
